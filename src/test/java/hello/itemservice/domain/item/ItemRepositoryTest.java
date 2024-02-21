@@ -1,19 +1,19 @@
 package hello.itemservice.domain.item;
 
-import static org.assertj.core.api.Assertions.*;
-
-import java.util.List;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-public class ItemRepositoryTest {
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
+
+class ItemRepositoryTest {
 
     ItemRepository itemRepository = new ItemRepository();
 
     @AfterEach
-    void afterEach(){
-        itemRepository.clearStroe();
+    void afterEach() {
+        itemRepository.clearStore();
     }
 
     @Test
@@ -22,7 +22,7 @@ public class ItemRepositoryTest {
         Item item = new Item("itemA", 10000, 10);
 
         //when
-        Item savedItem =  itemRepository.save(item);
+        Item savedItem = itemRepository.save(item);
 
         //then
         Item findItem = itemRepository.findById(item.getId());
@@ -47,21 +47,22 @@ public class ItemRepositoryTest {
     }
 
     @Test
-    void update() {
+    void updateItem() {
         //given
         Item item = new Item("item1", 10000, 10);
-        Item savedItem = itemRepository.save(item);
 
+        Item savedItem = itemRepository.save(item);
         Long itemId = savedItem.getId();
 
         //when
         Item updateParam = new Item("item2", 20000, 30);
         itemRepository.update(itemId, updateParam);
 
-        //then
         Item findItem = itemRepository.findById(itemId);
 
+        //then
         assertThat(findItem.getItemName()).isEqualTo(updateParam.getItemName());
         assertThat(findItem.getPrice()).isEqualTo(updateParam.getPrice());
+        assertThat(findItem.getQuantity()).isEqualTo(updateParam.getQuantity());
     }
 }
