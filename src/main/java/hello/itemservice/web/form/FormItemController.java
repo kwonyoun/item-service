@@ -5,6 +5,8 @@ import hello.itemservice.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.*;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +42,19 @@ public class FormItemController {
         return "form/addForm";
     }
 
+    @ModelAttribute("regions")
+    public Map<String, String> regions() {
+        Map<String, String> regions = new LinkedHashMap<>();
+        regions.put("SEOUL", "서울");
+        regions.put("BUSAN", "부산");
+        regions.put("JEJU", "제주");
+        return regions;
+    }
+
     @PostMapping("/add")
     public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
         log.info("item.open={}", item.getOpen());
+        log.info("item.regions={}", item.getRegions());
 
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
